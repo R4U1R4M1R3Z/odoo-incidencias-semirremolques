@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Categorías de módulo -->
+    <record id="module_category_incidencias" model="ir.module.category">
+        <field name="name">incidencias</field>
+        <field name="sequence">1</field>
+    </record>
+    <record id="module_category_incidencias_incidencias" model="ir.module.category">
+        <field name="name">incidencias</field>
+        <field name="sequence">1</field>
+        <field name="parent_id" ref="module_category_incidencias"/>
+    </record>
+
+    <!-- Grupos -->
+    <record id="group_incidencias_usuario" model="res.groups">
+        <field name="name">Usuario: Solo puede ver sus propias incidencias</field>
+        <field name="category_id" ref="module_category_incidencias_incidencias"/>
+    </record>
+    <record id="group_incidencias_administrador" model="res.groups">
+        <field name="name">Administrador</field>
+        <field name="category_id" ref="module_category_incidencias_incidencias"/>
+        <field name="implied_ids" eval="[(4, ref('group_incidencias_usuario'))]"/>
+    </record>
+
+    <!-- Reglas de control de acceso -->
+    <record id="acceso_incidencias_usuario" model="ir.model.access">
+        <field name="name">Acceso incidencias usuario</field>
+        <field name="model_id" ref="model_incidencias"/>
+        <field name="group_id" ref="group_incidencias_usuario"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+
+    <record id="acceso_incidencias_administrador" model="ir.model.access">
+        <field name="name">Acceso incidencias administrador</field>
+        <field name="model_id" ref="model_incidencias"/>
+        <field name="group_id" ref="group_incidencias_administrador"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="1"/>
+        <field name="perm_create" eval="1"/>
+        <field name="perm_unlink" eval="1"/>
+    </record>
+
+    <record id="acceso_via_deteccion_usuario" model="ir.model.access">
+        <field name="name">Acceso vía de detección usuario</field>
+        <field name="model_id" ref="model_via_deteccion"/>
+        <field name="group_id" ref="group_incidencias_usuario"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+
+    <record id="acceso_categoria_usuario" model="ir.model.access">
+        <field name="name">Acceso categoría usuario</field>
+        <field name="model_id" ref="model_categoria"/>
+        <field name="group_id" ref="group_incidencias_usuario"/>
+        <field name="perm_read" eval="1"/>
+        <field name="perm_write" eval="0"/>
+        <field name="perm_create" eval="0"/>
+        <field name="perm_unlink" eval="0"/>
+    </record>
+</odoo>

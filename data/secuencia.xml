@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="sequence_incidencias" model="ir.sequence">
+            <field name="name">Incidencias Sequence</field>
+            <field name="code">incidencias.sequence</field>
+            <field name="prefix">INC - %(year)s /</field>
+            <field name="padding">4</field>
+            <field name="implementation">no_gap</field>
+        </record>
+    </data>
+</odoo>

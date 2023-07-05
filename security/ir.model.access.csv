@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acceso_incidencias_usuario,Acceso incidencias usuario,model_incidencias,group_incidencias_usuario,1,0,0,0
+acceso_incidencias_administrador,Acceso incidencias administrador,model_incidencias,group_incidencias_administrador,1,1,1,1
+acceso_via_deteccion_usuario,Acceso vía de detección usuario,model_via_deteccion,group_incidencias_usuario,1,0,0,0
+acceso_categoria_usuario,Acceso categoría usuario,model_categoria,group_incidencias_usuario,1,0,0,0

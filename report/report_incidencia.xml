@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="action_report_incidencias" model="ir.actions.report">
+        <field name="name">incidencia</field>
+        <field name="model">incidencias</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">incidencias.report_incidencias</field>
+        <field name="report_file">incidencias.report_incidencias</field>
+        <field name="print_report_name">('incidencia - %s' %(object.name))</field>
+        <field name="binding_model_id" ref="model_incidencias"/>
+        <field name="binding_type">report</field>
+    </record>
+        
+    <template id="report_incidencias">
+           
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="row">
+                            <div class="col-12 text-right">
+                                <p>Identificador de la incidencia <strong><span t-field="o.name"/></strong> (<span t-field="o.state"/>)</p>
+                            </div>
+                        </div>
+                        <h2>Información general</h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <p><strong>Fecha de creación:</strong> <span t-field="o.date"/></p>
+                                <p><strong>Matricula:</strong> <span t-field="o.strNumMatricula"/></p>
+                                <p><strong>Número de bastidor:</strong> <span t-field="o.strNumChasis"/></p>
+                                <p><strong>Número furgón: </strong> <span t-field="o.strNumFurgon"/></p>
+                                <p><strong>Fecha de fabricación:</strong> <span t-field="o.date"/></p>
+                            </div>
+                            <div class="col-6">
+                                <p><strong>Cliente:</strong> <span t-field="o.cliente_id"/></p>
+                                <p><strong>Tipo de incidencia:</strong> <span t-field="o.tipo"/></p>
+                                <p><strong>Categoria: </strong> <span t-field="o.strCategoria"/></p>
+                                <p><strong>Empresa asignada: </strong> <span t-field="o.empresa_id"/></p>
+                                <p><strong>Empleado asignado: </strong> <span t-field="o.empleado_id"/></p>
+
+                            </div>
+                        </div>
+                        <br/><br/>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-bordered" style="border: 1px solid black;">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center; background-color: #f2f2f2; color: black; border: 1px solid black;">Incidencia</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: white; color: black; border: 1px solid black;">
+                                                <strong>Vía de detección: </strong><span t-field="o.strViaDeteccion"/><br/>
+                                                <strong>Descripción de la incidencia: </strong><span t-field="o.strDescripcion"/><br/>
+                                                <strong>Causa: </strong><span t-field="o.strCausa"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-bordered" style="border: 1px solid black;">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center; background-color: #f2f2f2; color: black; border: 1px solid black;">Solución</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="background-color: white; color: black; border: 1px solid black;">
+                                                <strong>Solución: </strong><span t-field="o.strSolucion"/><br/>
+                                                <strong>Coste: </strong><span t-field="o.flcoste"/><br/>
+                                                <strong>Fecha solución: </strong><span t-field="o.fecha_solucion"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

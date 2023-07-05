@@ -1,0 +1,135 @@
+<odoo>
+    <data>
+
+
+        <!-- Vista de formulario -->
+        <record id="view_incidencias_form" model="ir.ui.view">
+            <field name="name">incidencias.form</field>
+            <field name="model">incidencias</field>
+            <field name="arch" type="xml">
+                <form string="Incidencias">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="abierta,en_proceso"/>
+                        <button string="Preparar" type="object" name="preparar"  attrs="{'invisible': [('state', '=', False)]}"/>
+                        <button string="Resolver" type="object" name="resolver"  attrs="{'invisible': [('state', '=', False)]}"/>
+                        <button string="Cerrar" type="object" name="cerrar"  attrs="{'invisible': [('state', '=', False)]}"/>
+                        <button string="Cancelar" type="object" name="cancelar"  attrs="{'invisible': [('state', '=', False)]}"/>
+                        <button name="abrir_asistente_correo" string="Enviar correo" type="object" class="oe_highlight"/>
+
+                    </header>
+                    <sheet>
+                        <widget name="web_ribbon" title="Cancelada" bg_color="bg-dark" attrs="{'invisible': [('state', '!=', 'cancelada')]}"/>
+                        <widget name="web_ribbon" title="Cerrada" bg_color="bg-danger" attrs="{'invisible': [('state', '!=', 'cerrada_efectiva')]}"/>
+                        <widget name="web_ribbon" title="Resuelto" bg_color="bg-success" attrs="{'invisible': [('state', '!=', 'resuelta')]}"/>
+                        <div class="oe_title" attrs="{'invisible': [('state', '=', False)]}">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" readonly="1" class="oe_inline oe_readonly"/>
+                            </h1>
+                        </div>
+                        <group string="Datos principales">
+                            <group>
+                                <field name="date"/>
+                                <field name="strNumFurgon"/>
+                                <field name="strNumChasis"/>
+                                <field name="strNumMatricula"/>
+                                <field name="empleado_id"/>
+                            </group>
+                            <group>
+                                <field name="dateFabricacion"/>
+                                <field name="cliente_id"/>
+                                <field name="tipo"/>
+                                <field name="strCategoria"/>
+                                <field name="empresa_id"/>
+                                <field name="fecha_solucion" attrs="{'invisible': [('state', '!=', 'cerrada')]}"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Incidencia" >
+                                <group>
+                                    <field name="strViaDeteccion" />
+                                    <field name="strDescripcion"/>  
+                                    <field name="strCausa"/>
+                                </group>
+                            </page>
+                            <page string="Solución" >
+                            <group>
+                                <field name="strSolucion"/>
+                                <field name="flcoste" />
+                                
+                            </group>
+
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vista de árbol -->
+        <record id="view_incidencias_tree" model="ir.ui.view">
+            <field name="name">incidencias.tree</field>
+            <field name="model">incidencias</field>
+            <field name="arch" type="xml">
+                <tree string="Incidencias" decoration-info="state == 'en_proceso'" decoration-muted="state == 'cancelada'"  decoration-danger="state == 'cerrada_efectiva'" decoration-success="state == 'resuelta'">
+                    <field name="name" />
+                    <field name="date"/>
+                    <field name="strNumFurgon"/>
+                    <field name="strNumChasis"/>
+                    <field name="strNumMatricula"/>
+                    <field name="cliente_id"/>
+                    <field name="tipo"/>
+                    <field name="strCategoria"/>
+                    <field name="state"/>
+                    <field name="flcoste" sum="Coste total" />
+
+                </tree>
+            </field>
+        </record>
+
+        <!-- Vista de búsqueda -->
+        <record id="view_incidencias_search" model="ir.ui.view">
+            <field name="name">incidencias.search</field>
+            <field name="model">incidencias</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="strNumChasis" string="Número de Chasis" filter_domain="[('strNumChasis', 'ilike', self)]" />
+
+                    <!-- Filtro por Número de Matrícula -->
+                    <field name="strNumMatricula" string="Número de Matrícula" filter_domain="[('strNumMatricula', 'ilike', self)]" />
+
+                    <!-- Filtro por Número de Furgón -->
+                    <field name="strNumFurgon" string="Número de Furgón" filter_domain="[('strNumFurgon', 'ilike', self)]" />
+
+                    <!-- Filtro por Cliente -->
+                    <field name="cliente_id" string="Cliente" filter_domain="[('cliente_id', 'ilike', self)]" />
+                    <group expand="0" string="Agrupar por">
+                        <filter name="state" string="Estado" context="{'group_by': 'state'}"/>
+                        <filter name="tipo" string="Tipo" context="{'group_by': 'tipo'}"/>
+                        <filter name="empleado_id" string="Empleado" context="{'group_by': 'empleado_id'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <!-- Acciones -->
+        <record id="action_incidencias" model="ir.actions.act_window">
+            <field name="name">Incidencias</field>
+            <field name="res_model">incidencias</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_incidencias_search"/>
+        </record>
+
+        <!-- Menú -->
+        <menuitem id="menu_incidencias" name="Incidencias" sequence="10" web_icon = 'incidencias,static/description/icon.png'/>
+        <menuitem id="menu_incidencias_list" name="Listado de Incidencias" parent="menu_incidencias" action="action_incidencias"/>
+    </data>
+</odoo>
